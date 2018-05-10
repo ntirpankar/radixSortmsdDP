@@ -160,7 +160,7 @@ __global__ void moveKernel(
 	}
 }
 
-#define LOCAL_SORT_THRESHOLD 8388608
+#define LOCAL_SORT_THRESHOLD 1024*8
 
 template <
     typename    Key,
@@ -406,12 +406,12 @@ int main(void)
 	*/
 	 // 128, 128, 1024 takes long - it works.
 
-	//const int BLOCK_NUM_THREAD = 128;
-	//const int ITEMS_PER_THREAD = 1024;
-	//const int ARRAY_SIZE = BLOCK_NUM_THREAD*ITEMS_PER_THREAD*128;
-	const int BLOCK_NUM_THREAD = 32;
-	const int ITEMS_PER_THREAD = 8388608;
-	const int ARRAY_SIZE = BLOCK_NUM_THREAD*ITEMS_PER_THREAD*1;
+	const int BLOCK_NUM_THREAD = 128;
+	const int ITEMS_PER_THREAD = 1024;
+	const int ARRAY_SIZE = BLOCK_NUM_THREAD*ITEMS_PER_THREAD*128;
+//	const int BLOCK_NUM_THREAD = 32;
+//	const int ITEMS_PER_THREAD = 8388608;
+//	const int ARRAY_SIZE = BLOCK_NUM_THREAD*ITEMS_PER_THREAD*1;
 
 	const int ARRAY_BYTES = ARRAY_SIZE * sizeof(int);
 //	const int GRID_SIZE = ARRAY_SIZE / (BLOCK_NUM_THREAD * ITEMS_PER_THREAD)+ 1;
@@ -477,7 +477,7 @@ int main(void)
 	if (err != cudaSuccess){ printf("ERROR: host failed before calling radixsort due to err code %d.\n", err); return -1;}
 
 	dr::echo << "RadixSort starting for " << ARRAY_SIZE<<" elements...."<< std::endl;
-	radixSort<int, 128, 524288, 16><<<1, 1>>>(d_in, d_out, d_num_elems, d_offsets, d_bitnum_beg);
+	radixSort<int, 128, 1024, 16><<<1, 1>>>(d_in, d_out, d_num_elems, d_offsets, d_bitnum_beg);
 	err = cudaGetLastError();
 	if (err != cudaSuccess){ printf("ERROR: radixSort failed due to err code %d.\n", err); return -1;}
 	//CudaCheckError();
