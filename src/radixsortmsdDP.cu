@@ -407,7 +407,7 @@ int main(void)
 	 // 128, 128, 1024 takes long - it works.
 
 	const int BLOCK_NUM_THREAD = 128;
-	const int ITEMS_PER_THREAD = 1024;
+	const int ITEMS_PER_THREAD = 128;
 	const int ARRAY_SIZE = BLOCK_NUM_THREAD*ITEMS_PER_THREAD*128;
 //	const int BLOCK_NUM_THREAD = 32;
 //	const int ITEMS_PER_THREAD = 8388608;
